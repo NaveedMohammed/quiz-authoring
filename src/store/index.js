@@ -44,7 +44,7 @@ export default createStore({
      */
     addQuizQuestion(state) {
       let newQuestion = {
-        id: state.quizLength,
+        id: state.quizQuestions.length,
         question: "New Question",
         image: "",
         options: {
@@ -56,10 +56,21 @@ export default createStore({
       };
       state.quizQuestions = [...state.quizQuestions, newQuestion]
     },
+    /**
+     * Delete the question based on the index provided from state.
+     * @param {state} state 
+     * @param {Integer} index 
+     */
+    deleteQuizQuestion(state, index){
+      state.quizQuestions.splice(index, 1);
+    }
   },
   actions: {
     addQuizQuestion(context) {
       context.commit("addQuizQuestion");
+    },
+    deleteQuizQuestion(context, index){
+      context.commit("deleteQuizQuestion", index);
     }
   },
   modules: {},

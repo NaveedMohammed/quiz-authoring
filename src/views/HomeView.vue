@@ -1,14 +1,14 @@
 <template>
-  <quiz></quiz>
+  <quiz-component></quiz-component>
 </template>
 
 <script>
-import Quiz from "@/components/QuizComponent.vue";
+import QuizComponent from "@/components/QuizComponent.vue";
 
 export default {
   name: "HomeView",
   components: {
-    Quiz,
+    QuizComponent,
   },
 };
 </script>

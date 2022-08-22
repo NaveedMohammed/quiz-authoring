@@ -1,15 +1,30 @@
 <template>
   <div class="container">
     <h1>Quiz Questions</h1>
-    <ul class="list-group">
-      <li @mouseover="deleteIndex= index" @mouseleave="deleteIndex= null"  v-for="(questions, index) in quizQuestions" :key="index" class="quiz-list list-group-item d-flex justify-content-between align-items-center">
+    <div class="list-group">
+      <button
+        @mouseover="deleteIndex = index"
+        @mouseleave="deleteIndex = null"
+        v-for="(questions, index) in quizQuestions"
+        :key="index"
+        type="button"
+        class="list-group-item list-group-item-action quiz-list d-flex justify-content-between align-items-center"
+        aria-current="true"
+      >
         {{ questions["question"] }}
-       <button v-if="deleteIndex === index" type="button" class="btn btn-lg btn-link rounded-pill" @click="deleteQuestion(index)"><i class="bi bi-trash icon-red"></i></button>
-      </li>
-      <button type="button" class="btn btn-primary" @click="createQuizQuestion">
-        Add Question
+        <button
+          v-if="deleteIndex === index"
+          type="button"
+          class="btn btn-lg btn-link rounded-pill"
+          @click="deleteQuestion(index)"
+        >
+          <i class="bi bi-trash icon-red"></i>
+        </button>
       </button>
-    </ul>
+    </div>
+    <button type="button" class="btn btn-primary add-btn" @click="createQuizQuestion">
+      Add Question
+    </button>
   </div>
 </template>
 
@@ -47,22 +62,24 @@ export default {
       this.$store.dispatch("addQuizQuestion");
     },
     /**
-     * Delete the question from the list based on index. 
-     * @param {Integer} index 
+     * Delete the question from the list based on index.
+     * @param {Integer} index
      */
-    deleteQuestion(index){
+    deleteQuestion(index) {
       this.$store.dispatch("deleteQuizQuestion", index);
-    }
+    },
   },
 };
 </script>
 
 <style scoped>
-.quiz-list:hover{
+.quiz-list:hover {
   background: lightgray;
 }
-.icon-red{
+.icon-red {
   color: red;
 }
-
+.add-btn {
+  margin: 5px;
+}
 </style>

@@ -6,7 +6,7 @@ export default createStore({
       {
         id: 0,
         question: "What is c2stem?",
-        image: "",
+        image: [require("../assets/item3a.png"), require("../assets/item3b.png")],
         options: {
           a: 1,
           b: 2,
@@ -17,7 +17,7 @@ export default createStore({
       {
         id: 1,
         question: "What language is c2stem written in?",
-        image: "",
+        image: [require("../assets/item3a.png"), require("../assets/item3b.png"),],
         options: {
           a: 1,
           b: 2,
@@ -40,7 +40,7 @@ export default createStore({
   mutations: {
     /**
      * Add a new empty question to the store.
-     * @param {state} state 
+     * @param {state} state
      */
     addQuizQuestion(state) {
       let newQuestion = {
@@ -54,24 +54,24 @@ export default createStore({
           d: "",
         },
       };
-      state.quizQuestions = [...state.quizQuestions, newQuestion]
+      state.quizQuestions = [...state.quizQuestions, newQuestion];
     },
     /**
      * Delete the question based on the index provided from state.
-     * @param {state} state 
-     * @param {Integer} index 
+     * @param {state} state
+     * @param {Integer} index
      */
-    deleteQuizQuestion(state, index){
+    deleteQuizQuestion(state, index) {
       state.quizQuestions.splice(index, 1);
-    }
+    },
   },
   actions: {
     addQuizQuestion(context) {
       context.commit("addQuizQuestion");
     },
-    deleteQuizQuestion(context, index){
+    deleteQuizQuestion(context, index) {
       context.commit("deleteQuizQuestion", index);
-    }
+    },
   },
   modules: {},
 });

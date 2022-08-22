@@ -16,8 +16,8 @@
           accept=".jpg,.gif,.png"
         />
       </div> -->
-      <div v-if='quizQuestion["images"].length'>
-        <div v-for='(img, index) in quizQuestion["images"]' :key="index">
+      <div v-if='quizQuestion["image"].length'>
+        <div v-for='(img, index) in quizQuestion["image"]' :key="index">
           <img :src="img" class="img-thumbnail" width="100" />
         </div>
       </div>

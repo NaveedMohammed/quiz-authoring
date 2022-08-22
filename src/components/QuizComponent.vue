@@ -1,36 +1,58 @@
 <template>
   <div class="container">
-    <h1>Quiz Questions</h1>
-    <div class="list-group">
-      <button
-        @mouseover="deleteIndex = index"
-        @mouseleave="deleteIndex = null"
-        v-for="(questions, index) in quizQuestions"
-        :key="index"
-        type="button"
-        class="list-group-item list-group-item-action quiz-list d-flex justify-content-between align-items-center"
-        aria-current="true"
-      >
-        {{ questions["question"] }}
+    <div class="row">
+      <div class="col">
+        <h1>Quiz Questions</h1>
+        <div class="list-group">
+          <button
+            @mouseover="deleteIndex = index"
+            @mouseleave="deleteIndex = null"
+            v-for="(questions, index) in quizQuestions"
+            :key="index"
+            type="button"
+            class="
+              list-group-item list-group-item-action
+              quiz-list
+              d-flex
+              justify-content-between
+              align-items-center
+            "
+            aria-current="true"
+          >
+            {{ questions["question"] }}
+            <button
+              v-if="deleteIndex === index"
+              type="button"
+              class="btn btn-lg btn-link rounded-pill"
+              @click="deleteQuestion(index)"
+            >
+              <i class="bi bi-trash icon-red"></i>
+            </button>
+          </button>
+        </div>
         <button
-          v-if="deleteIndex === index"
           type="button"
-          class="btn btn-lg btn-link rounded-pill"
-          @click="deleteQuestion(index)"
+          class="btn btn-primary add-btn"
+          @click="createQuizQuestion"
         >
-          <i class="bi bi-trash icon-red"></i>
+          Add Question
         </button>
-      </button>
+      </div>
+      <div class="col">
+        <quiz-design-component :quizQuestion="quizQuestions[0]"></quiz-design-component>
+      </div>
     </div>
-    <button type="button" class="btn btn-primary add-btn" @click="createQuizQuestion">
-      Add Question
-    </button>
   </div>
 </template>
 
 <script>
+import QuizDesignComponent from "../components/QuizDesignComponent.vue";
+
 export default {
   name: "QuizComponent",
+  components: {
+    QuizDesignComponent,
+  },
   data() {
     return {
       /**

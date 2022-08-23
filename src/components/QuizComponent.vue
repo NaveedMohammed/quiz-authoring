@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
+  <div class="container-fluid overflow-hidden">
     <div class="row">
-      <div class="col">
+      <div class="col-4 shadow p-3 mb-3 bg-body rounded quiz-panel">
         <h1>Quiz Questions</h1>
         <div class="list-group">
           <button
@@ -18,6 +18,7 @@
               align-items-center
             "
             aria-current="true"
+            @click="editQuizQuestion(index)"
           >
             {{ questions["question"] }}
             <button
@@ -38,8 +39,11 @@
           Add Question
         </button>
       </div>
-      <div class="col">
-        <quiz-design-component :quizQuestion="quizQuestions[0]"></quiz-design-component>
+      <div v-if="editFlag && quizQuestions[editIndex]" class="col-7 shadow p-3 mb-3 bg-body rounded quiz-panel">
+        <quiz-design-component :quizQuestion="quizQuestions[editIndex]"></quiz-design-component>
+      </div>
+      <div v-else class="col-7 shadow p-3 mb-3 bg-body rounded quiz-panel">
+        <h1>Please select a Quiz question to edit</h1>
       </div>
     </div>
   </div>
@@ -59,6 +63,8 @@ export default {
        * Index used to display the delete icon on hover.
        */
       deleteIndex: null,
+      editIndex: null,
+      editFlag: false,
     };
   },
   computed: {
@@ -90,6 +96,11 @@ export default {
     deleteQuestion(index) {
       this.$store.dispatch("deleteQuizQuestion", index);
     },
+    editQuizQuestion(index){
+      this.editFlag = true;
+      this.editIndex = index;
+
+    }
   },
 };
 </script>
@@ -103,5 +114,12 @@ export default {
 }
 .add-btn {
   margin: 5px;
+}
+.container-fluid, .row{
+  height: 100%;
+}
+.quiz-panel{
+  margin-left: 1rem;
+  margin-top: 1rem;
 }
 </style>

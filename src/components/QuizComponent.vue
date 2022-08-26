@@ -10,13 +10,7 @@
             v-for="(questions, index) in quizQuestions"
             :key="index"
             type="button"
-            class="
-              list-group-item list-group-item-action
-              quiz-list
-              d-flex
-              justify-content-between
-              align-items-center
-            "
+            class="list-group-item list-group-item-action quiz-list d-flex justify-content-between align-items-center"
             aria-current="true"
             @click="editQuizQuestion(index)"
           >
@@ -39,8 +33,14 @@
           Add Question
         </button>
       </div>
-      <div v-if="editFlag && quizQuestions[editIndex]" class="col-7 shadow p-3 mb-3 bg-body rounded quiz-panel">
-        <quiz-design-component :quizQuestion="quizQuestions[editIndex]"></quiz-design-component>
+      <div
+        v-if="editFlag && quizQuestions[editIndex]"
+        class="col-7 shadow p-3 mb-3 bg-body rounded quiz-panel"
+      >
+        <quiz-design-component
+          :quizQuestion="quizQuestions[editIndex]"
+          :quizQuestionIndex="editIndex"
+        ></quiz-design-component>
       </div>
       <div v-else class="col-7 shadow p-3 mb-3 bg-body rounded quiz-panel">
         <h1>Please select a Quiz question to edit</h1>
@@ -96,11 +96,10 @@ export default {
     deleteQuestion(index) {
       this.$store.dispatch("deleteQuizQuestion", index);
     },
-    editQuizQuestion(index){
+    editQuizQuestion(index) {
       this.editFlag = true;
       this.editIndex = index;
-
-    }
+    },
   },
 };
 </script>
@@ -115,10 +114,11 @@ export default {
 .add-btn {
   margin: 5px;
 }
-.container-fluid, .row{
+.container-fluid,
+.row {
   height: 100%;
 }
-.quiz-panel{
+.quiz-panel {
   margin-left: 1rem;
   margin-top: 1rem;
 }

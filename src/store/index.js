@@ -79,6 +79,9 @@ export default createStore({
         d: quizQuestion.options.d,
       };
     },
+    deleteQuizImage(state, quizQuestion) {
+      state.quizQuestions[quizQuestion.index].image.splice(quizQuestion.imgIndex,1);
+    }
   },
   actions: {
     addQuizQuestion(context) {
@@ -90,6 +93,9 @@ export default createStore({
     updateQuizQuestion(context, quizQuestion) {
       context.commit("updateQuizQuestion", quizQuestion);
     },
+    deleteQuizImage(context, quizQuestion) {
+      context.commit("deleteQuizImage", quizQuestion);
+    }
   },
   modules: {},
 });

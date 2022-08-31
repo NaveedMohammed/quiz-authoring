@@ -3,7 +3,7 @@
     <h1>Quiz Design</h1>
     <form>
       <div class="mb-3">
-        <label for="questionLabel" class="form-label">Question</label>
+        <label for="questionLabel" class="form-label">Question: </label>
         <input
           type="text"
           class="form-control"
@@ -13,18 +13,40 @@
           @change="handle($event)"
         />
       </div>
-      <!-- <div class="mb-3">
-        <label for="formImage" class="form-label">Add Image</label>
+      <div class="image-header">
+        <!-- <label for="formImage" class="form-label">Add Image</label>
         <input
-          class="form-control"
+          class="form-control invisible"
           type="file"
           id="formImage"
           accept=".jpg,.gif,.png"
+        /> -->
+        <p class="pe-2">Images:</p>
+        <Button v-if="!disabledFlag" @click="openFileDialog()"
+          >Add Image</Button
+        >
+        <input
+          className="form-control d-none"
+          id="imageFileInput"
+          type="file"
+          onChange="{imageSelected}"
         />
-      </div> -->
+      </div>
       <div v-if="quizQuestion['image'].length" class="image-group">
-        <div v-for="(img, index) in quizQuestion['image']" :key="index">
+        <div
+          v-for="(img, index) in quizQuestion['image']"
+          :key="index"
+          class="images"
+        >
           <img :src="img" width="100" />
+          <button
+            v-if="!disabledFlag"
+            type="button"
+            class="btn btn-lg btn-link rounded-pill icon-link"
+            @click="deleteImage(index)"
+          >
+            <i class="bi bi-trash icon-red"></i>
+          </button>
         </div>
       </div>
       <div
@@ -103,6 +125,16 @@ export default {
         this.options[eventData.id] = eventData.value;
       }
     },
+    openFileDialog() {
+      var fileInput = document.getElementById("imageFileInput");
+      fileInput.click();
+    },
+    deleteImage(index) {
+      this.$store.dispatch("deleteQuizImage", {
+        index: this.quizQuestionIndex,
+        imgIndex: index,
+      });
+    },
   },
 };
 </script>
@@ -111,5 +143,30 @@ export default {
 .image-group {
   display: flex;
   justify-content: space-evenly;
+}
+.icon-red {
+  color: red;
+}
+.image-header {
+  display: flex;
+  align-items: baseline;
+}
+.images {
+  position: relative;
+}
+.icon-link {
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  max-height: 100%;
+}
+.images:hover .icon-link {
+  opacity: 1;
+}
+.images:hover img {
+  opacity: 0.3;
 }
 </style>

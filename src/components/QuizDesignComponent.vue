@@ -123,7 +123,7 @@ export default {
           index: this.quizQuestionIndex,
           question: this.question,
           options: this.options,
-          imageList: this.imageList,
+          imageList: [...this.imageList],
         });
       }
     },

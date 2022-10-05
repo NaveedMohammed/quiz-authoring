@@ -22,9 +22,9 @@
           accept=".jpg,.gif,.png"
         /> -->
         <p class="pe-2">Images:</p>
-        <Button v-if="!disabledFlag" @click="openFileDialog()"
-          >Add Image</Button
-        >
+        <button v-if="!disabledFlag" @click="openFileDialog()">
+          Add Image
+        </button>
         <input
           className="form-control d-none"
           id="imageFileInput"
@@ -32,12 +32,8 @@
           onChange="{imageSelected}"
         />
       </div>
-      <div v-if="quizQuestion['image'].length" class="image-group">
-        <div
-          v-for="(img, index) in quizQuestion['image']"
-          :key="index"
-          class="images"
-        >
+      <div v-if="this.quizQuestion['images'].length" class="image-group">
+        <div v-for="(img, index) in this.quizQuestion['images']" :key="index" class="images">
           <img :src="img" width="100" />
           <button
             v-if="!disabledFlag"
@@ -65,14 +61,25 @@
         />
       </div>
     </form>
-    <button
-      id="editBtn"
-      type="button"
-      class="btn btn-primary"
-      @click="editQuizQuestion"
-    >
-      Edit Question
-    </button>
+    <div class="button-grp">
+      <button
+        id="editBtn"
+        type="button"
+        class="btn btn-primary"
+        @click="editQuizQuestion"
+      >
+        Edit Question
+      </button>
+      <button
+        v-if="!disabledFlag"
+        id="CancelBtn"
+        type="button"
+        class="btn btn-primary"
+        @click="removeChanges"
+      >
+        Cancel
+      </button>
+    </div>
   </div>
 </template>
 
@@ -89,6 +96,8 @@ export default {
         c: this.quizQuestion["options"]["c"],
         d: this.quizQuestion["options"]["d"],
       },
+      imageList: [...this.quizQuestion["images"]],
+      undoQueue: {},
     };
   },
   props: {
@@ -114,6 +123,7 @@ export default {
           index: this.quizQuestionIndex,
           question: this.question,
           options: this.options,
+          imageList: this.imageList,
         });
       }
     },
@@ -130,10 +140,26 @@ export default {
       fileInput.click();
     },
     deleteImage(index) {
-      this.$store.dispatch("deleteQuizImage", {
-        index: this.quizQuestionIndex,
-        imgIndex: index,
-      });
+      this.imageList.splice(index, 1);
+      this.undoQueue[index] = index;
+      // this.$store.dispatch("deleteQuizImage", {
+      //   index: this.quizQuestionIndex,
+      //   imgIndex: index,
+      // });
+    },
+    removeChanges() {
+      const editBttn = document.getElementById("editBtn");
+      this.question = this.quizQuestion["question"];
+      this.options = {
+        a: this.quizQuestion["options"]["a"],
+        b: this.quizQuestion["options"]["b"],
+        c: this.quizQuestion["options"]["c"],
+        d: this.quizQuestion["options"]["d"],
+      };
+      this.imageList.length = 0;
+      this.imageList = [...this.quizQuestion["images"]];
+      this.disabledFlag = true;
+      editBttn.innerText = "Edit Question";
     },
   },
 };
@@ -168,5 +194,8 @@ export default {
 }
 .images:hover img {
   opacity: 0.3;
+}
+.button-grp button {
+  margin: 5px;
 }
 </style>

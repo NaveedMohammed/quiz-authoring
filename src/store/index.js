@@ -6,9 +6,9 @@ export default createStore({
       {
         id: 0,
         question: "What is c2stem?",
-        image: [
+        images: [
           require("../assets/item3a.png"),
-          require("../assets/item3b.png"),
+          require("../assets/script_1.png"),
         ],
         options: {
           a: 1,
@@ -20,15 +20,15 @@ export default createStore({
       {
         id: 1,
         question: "What language is c2stem written in?",
-        image: [
-          require("../assets/item3a.png"),
-          require("../assets/item3b.png"),
+        images: [
+          require("../assets/script_2.png"),
+          require("../assets/script_3.png"),
         ],
         options: {
-          a: 1,
-          b: 2,
-          c: 3,
-          d: 4,
+          a: 11,
+          b: 22,
+          c: 33,
+          d: 44,
         },
       },
     ],
@@ -52,7 +52,7 @@ export default createStore({
       let newQuestion = {
         id: state.quizQuestions.length,
         question: "New Question",
-        image: "",
+        images: "",
         options: {
           a: "",
           b: "",
@@ -78,9 +78,10 @@ export default createStore({
         c: quizQuestion.options.c,
         d: quizQuestion.options.d,
       };
+      state.quizQuestions[quizQuestion.index].images = quizQuestion.imageList;
     },
     deleteQuizImage(state, quizQuestion) {
-      state.quizQuestions[quizQuestion.index].image.splice(quizQuestion.imgIndex,1);
+      state.quizQuestions[quizQuestion.index].images.splice(quizQuestion.imgIndex,1);
     }
   },
   actions: {

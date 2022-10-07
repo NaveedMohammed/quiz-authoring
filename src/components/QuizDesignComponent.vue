@@ -33,10 +33,14 @@
         />
       </div>
       <div v-if="this.quizQuestion['images'].length" class="image-group">
-        <div v-for="(img, index) in this.quizQuestion['images']" :key="index" class="images">
-          <img :src="img" width="100" />
+        <div
+          v-for="(img, index) in this.quizQuestion['images']"
+          :key="index"
+          class="images"
+        >
+          <img v-if="!deleteImgIndex.includes(index)" :src="img" width="100" />
           <button
-            v-if="!disabledFlag"
+            v-if="!disabledFlag && !deleteImgIndex.includes(index)"
             type="button"
             class="btn btn-lg btn-link rounded-pill icon-link"
             @click="deleteImage(index)"
@@ -98,6 +102,7 @@ export default {
       },
       imageList: [...this.quizQuestion["images"]],
       undoQueue: {},
+      deleteImgIndex: [],
     };
   },
   props: {
@@ -119,11 +124,12 @@ export default {
       } else {
         this.disabledFlag = true;
         editBttn.innerText = "Edit Question";
+        this.deleteImgIndex.length = 0;
         this.$store.dispatch("updateQuizQuestion", {
           index: this.quizQuestionIndex,
           question: this.question,
           options: this.options,
-          imageList: [...this.imageList],
+          imageList: this.imageList.filter(() => {return true}),
         });
       }
     },
@@ -140,8 +146,8 @@ export default {
       fileInput.click();
     },
     deleteImage(index) {
-      this.imageList.splice(index, 1);
-      this.undoQueue[index] = index;
+      delete this.imageList[index];
+      this.deleteImgIndex.push(index);
       // this.$store.dispatch("deleteQuizImage", {
       //   index: this.quizQuestionIndex,
       //   imgIndex: index,
@@ -158,6 +164,7 @@ export default {
       };
       this.imageList.length = 0;
       this.imageList = [...this.quizQuestion["images"]];
+      this.deleteImgIndex.length = 0;
       this.disabledFlag = true;
       editBttn.innerText = "Edit Question";
     },

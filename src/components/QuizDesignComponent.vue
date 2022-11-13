@@ -115,6 +115,18 @@ export default {
       required: true,
     },
   },
+  watch:{
+    quizQuestionIndex(){
+      this.question= this.quizQuestion["question"],
+      this.options= {
+        a: this.quizQuestion["options"]["a"],
+        b: this.quizQuestion["options"]["b"],
+        c: this.quizQuestion["options"]["c"],
+        d: this.quizQuestion["options"]["d"],
+      },
+      this.imageList= [...this.quizQuestion["images"]]
+    }
+  },
   methods: {
     editQuizQuestion() {
       const editBttn = document.getElementById("editBtn");
@@ -131,6 +143,7 @@ export default {
           options: this.options,
           imageList: this.imageList.filter(() => {return true}),
         });
+        this.imageList= [...this.quizQuestion["images"]];
       }
     },
     handle(event) {
